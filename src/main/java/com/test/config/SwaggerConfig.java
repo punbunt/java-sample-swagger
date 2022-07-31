@@ -27,8 +27,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("JavaSwagger API")
-                .description("JavaSwagger API reference for developers")
+        return new ApiInfoBuilder().title("Sample Swagger for API")
+                .description("Swagger or API reference for developers")
                 .build();
     }
 }
