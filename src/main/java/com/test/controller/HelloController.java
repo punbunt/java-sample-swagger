@@ -9,6 +9,7 @@ import io.swagger.annotations.SwaggerDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -28,7 +29,7 @@ public class HelloController {
 
     @ApiOperation(value = "inquire menu", nickname = "search menu", notes = "remark")
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/menu/inquiry", produces = "application/json")
-    public List<MenuInquiryResponse> getMenuList() {
-        return myService.getMenuList();
+    public List<MenuInquiryResponse> getMenuList(@RequestParam(required = false) String name) {
+        return myService.getMenuList(name);
     }
 }
