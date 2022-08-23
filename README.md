@@ -1,1 +1,1 @@
-# java-sample-swagger
+# sample-service-bakery-information
