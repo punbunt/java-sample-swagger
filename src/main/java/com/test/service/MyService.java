@@ -1,15 +1,15 @@
 package com.test.service;
 
+import com.test.model.*;
 import com.test.model.Entity.MenuDataEntity;
-import com.test.model.MenuInquiryResponse;
 import com.test.repository.MenuDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MyService {
@@ -22,16 +22,43 @@ public class MyService {
     //other service
     //get menu by name
 
-    public MenuInquiryResponse mapMenuToEntities (MenuDataEntity record) {
-        MenuInquiryResponse response = new MenuInquiryResponse();
+    public void deleteMenu(MenuDeleteRequest request) throws Exception {
+        //find record by ID then delete
+        Optional <MenuDataEntity> recordOpt = menuDataRepository.findById(request.getId());
+        if (recordOpt.isPresent()) {
+            MenuDataEntity record = recordOpt.get();
+            menuDataRepository.delete(record);
+        }
+    }
+
+    public MenuCreateResponse postMenu(MenuCreateRequest request) {
+
+        //set default value to request body fields
+        if ( request.getMenufacDate() == null ) {
+            request.setMenufacDate(LocalDateTime.now());
+        }
+
+        //map request into entity
+        MenuDataEntity record = new MenuDataEntity();
+        record.setName(request.getName());
+        record.setMenufacDateTime(request.getMenufacDate());
+        record.setSize(request.getAmount());
+        record.setExpireDateTime(request.getMenufacDate().plusDays(7));
+
+        //save into DB
+        menuDataRepository.save(record);
+
+        //construct response
+        MenuCreateResponse response = new MenuCreateResponse();
         response.setId(record.getId());
         response.setName(record.getName());
         response.setMenufacDate(record.getMenufacDateTime());
         response.setExpiryDate(record.getExpireDateTime());
-        response.setSize(record.getSize());
-        return response;
-    }
+        response.setAmount(record.getSize());
 
+        return response;
+
+    }
     public List<MenuInquiryResponse> getMenuList(String name) {
 
         //case find by name
@@ -81,5 +108,15 @@ public class MyService {
 
         return mylist;*/
 
+    }
+
+    public MenuInquiryResponse mapMenuToEntities (MenuDataEntity record) {
+        MenuInquiryResponse response = new MenuInquiryResponse();
+        response.setId(record.getId());
+        response.setName(record.getName());
+        response.setMenufacDate(record.getMenufacDateTime());
+        response.setExpiryDate(record.getExpireDateTime());
+        response.setAmount(record.getSize());
+        return response;
     }
 }

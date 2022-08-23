@@ -1,16 +1,15 @@
 package com.test.controller;
 
-import com.test.model.MenuInquiryResponse;
+import com.test.model.*;
 import com.test.service.MyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
@@ -31,5 +30,18 @@ public class HelloController {
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/menu/inquiry", produces = "application/json")
     public List<MenuInquiryResponse> getMenuList(@RequestParam(required = false) String name) {
         return myService.getMenuList(name);
+    }
+    @ApiOperation(value = "create menu", nickname = "create menu", notes = "remark")
+    @RequestMapping(method = RequestMethod.POST, value = "/api/v1/menu/create", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public MenuCreateResponse postMenu(@RequestBody(required = false) MenuCreateRequest request) {
+        return myService.postMenu(request);
+    }
+
+    @ApiOperation(value = "delete menu", nickname = "delete menu", notes = "remark")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/api/v1/menu/delete", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> postMenu(@RequestBody(required = false) MenuDeleteRequest request) throws Exception {
+        myService.deleteMenu(request);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
 
-@ApiModel(description = "Menu inquiry response")
-public class MenuInquiryResponse {
+@ApiModel(description = "Menu create response")
+public class MenuCreateResponse {
     private int id;
     private String name;
     private LocalDateTime menufacDate;

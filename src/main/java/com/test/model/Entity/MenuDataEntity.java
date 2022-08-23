@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Table(name = "menu")
 public class MenuDataEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "NAME")
