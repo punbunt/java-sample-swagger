@@ -21,9 +21,14 @@ import java.io.*;
 @RestController
 public class SoapController {
 
+    @PostMapping(value = "/api/v1/sample/soap/string", consumes =  {"*/*"})
+    public ResponseEntity<String> convertObjectToString(@RequestBody String envelope) throws SOAPException, IOException {
+        return new ResponseEntity<>(envelope, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/sample/soap", produces = MediaType.TEXT_XML_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getSampleXml() throws SOAPException, IOException {
+    public ResponseEntity<String> convertStringToObject() throws SOAPException, IOException {
 
         //sample with string xml
         InputStream is = new ByteArrayInputStream(("<?xml version=\"1.0\"?>\n" +
